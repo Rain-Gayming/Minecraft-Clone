@@ -23,11 +23,37 @@ namespace MinecraftClone
 		//set of vertices to draw the triangle with (x,y,z) for each vertex
 		List<Vector3> vertices = new List<Vector3>()
 		{
-			new Vector3(-0.5f, 0.5f, -0.5f), //top left
-			new Vector3(0.5f, 0.5f, -0.5f), //top right
-			new Vector3(0.5f, -0.5f, -0.5f), //bottom right
-			new Vector3(-0.5f, -0.5f, -0.5f), //bottom left
-		};
+            //front face
+            new Vector3(-0.5f, 0.5f, 0.5f), //topleft vert
+            new Vector3(0.5f, 0.5f, 0.5f), //topright vert
+            new Vector3(0.5f, -0.5f, 0.5f), //bottomright vert
+            new Vector3(-0.5f, -0.5f, 0.5f), //bottomleft vert
+            //right face
+            new Vector3(0.5f, 0.5f, 0.5f), //topleft vert
+            new Vector3(0.5f, 0.5f, -0.5f), //topright vert
+            new Vector3(0.5f, -0.5f, -0.5f), //bottomright vert
+            new Vector3(0.5f, -0.5f, 0.5f), //bottomleft vert
+            //back face
+            new Vector3(0.5f, 0.5f, -0.5f), //topleft vert
+            new Vector3(-0.5f, 0.5f, -0.5f), //topright vert
+            new Vector3(-0.5f, -0.5f, -0.5f), //bottomright vert
+            new Vector3(0.5f, -0.5f, -0.5f), //bottomleft vert
+            //left face
+            new Vector3(-0.5f, 0.5f, -0.5f), //topleft vert
+            new Vector3(-0.5f, 0.5f, 0.5f), //topright vert
+            new Vector3(-0.5f, -0.5f, 0.5f), //bottomright vert
+            new Vector3(-0.5f, -0.5f, -0.5f), //bottomleft vert
+            //top face
+            new Vector3(-0.5f, 0.5f, -0.5f), //topleft vert
+            new Vector3(0.5f, 0.5f, -0.5f), //topright vert
+            new Vector3(0.5f, 0.5f, 0.5f), //bottomright vert
+            new Vector3(-0.5f, 0.5f, 0.5f), //bottomleft vert
+            //bottom face
+            new Vector3(-0.5f, -0.5f, 0.5f), //topleft vert
+            new Vector3(0.5f, -0.5f, 0.5f), //topright vert
+            new Vector3(0.5f, -0.5f, -0.5f), //bottomright vert
+            new Vector3(-0.5f, -0.5f, -0.5f), //bottomleft vert
+        };
 
 		//coordinates for where the textures render
 		List<Vector2> texCoords = new List<Vector2>()
@@ -36,17 +62,55 @@ namespace MinecraftClone
 			new Vector2(1f, 1f),
 			new Vector2(1f, 0f),
 			new Vector2(0f, 0f),
+
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
+
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
+
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
+
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
+
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
 		};
 
 		uint[] indices =
 		{
-            //top triangle
-            0, 1, 2,
-            //bottom triangle
-            2, 3, 0
+			0, 1, 2,
+            2, 3, 0,
+
+			4, 5, 6,
+			6, 7, 4,
+
+			8, 9, 10,
+			10, 11, 8,
+
+			12, 13, 14,
+			14, 15, 12,
+
+			16, 17, 18,
+			18, 19, 16,
+
+			20, 21, 22,
+			22, 23, 20
 		};
 
-		//Render Pipeline vars
+		//render Pipeline vars
 		int vao;
 		int shaderProgram;
 		int vbo;
@@ -54,9 +118,12 @@ namespace MinecraftClone
 		int ebo;
 		int textureID;
 
+		//tranformation variables
+		float yRot = 0f;
+
 		//width and height of screen
 		int width, height;
-		//Constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
+		//constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
 		public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
 		{
 			this.width = width;
@@ -184,6 +251,8 @@ namespace MinecraftClone
 			//unbind the texture
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 			#endregion
+
+			GL.Enable(EnableCap.DepthTest);
 		}
 		//called once when game is closed
 		protected override void OnUnload()
@@ -203,7 +272,7 @@ namespace MinecraftClone
 			//Set the color to fill the screen with
 			GL.ClearColor(0.3f, 0.3f, 1f, 1f);
 			//Fill the screen with the color
-			GL.Clear(ClearBufferMask.ColorBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
 			//draw our triangle
@@ -217,9 +286,6 @@ namespace MinecraftClone
 			Matrix4 model = Matrix4.Identity;
 			Matrix4 view = Matrix4.Identity;
 			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(60.0f), width / height, 0.1f, 100.0f);
-
-			//rotates the model
-			model = Matrix4.CreateRotationY(45f);
 
 			//moves the vertices back so the camera can see them
 			Matrix4 translation = Matrix4.CreateTranslation(0f, 0f, -3f);
