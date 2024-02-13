@@ -131,12 +131,16 @@ namespace MinecraftClone.Scripts
 
 
         public void InputController(KeyboardState input, MouseState mouse, FrameEventArgs e)
-        {
-            if (input.IsKeyDown(Keys.Escape))
-            {
-                TogglePause();
-            }
-        }
+		{
+			if (input.IsKeyDown(Keys.Escape))
+			{
+				TogglePause();
+			}
+			if (input.IsKeyDown(Keys.R))
+			{
+                chunk = new Chunk(Vector3.Zero);
+			}
+		}
 
         public void TogglePause()
         {

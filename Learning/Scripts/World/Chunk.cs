@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using MinecraftClone.Scripts.Graphics;
 using MinecraftClone.Scripts.Player;
 
@@ -35,6 +36,8 @@ namespace MinecraftClone.Scripts.World
 
 		Texture texture;
 
+		Block[,,] chunkBlocks;
+
 		public Chunk(Vector3 position)
 		{
 			this.position = position;
@@ -43,52 +46,172 @@ namespace MinecraftClone.Scripts.World
 			chunkUVs = new List<Vector2>();
 			chunkIndices = new List<uint>();
 
+			chunkBlocks = new Block[size, maxChunkHeight, size];
+			float[,] heightMap = GenChunk();
 
-			GenBlocks();
+			GenBlocks(heightMap);
+			GenFaces(heightMap);
 			BuildChunk();
 		}
 
 		//generates data
-		public void GenChunk()
+		public float[,] GenChunk()
 		{
+			float[,] heightMap = new float[size, size];
 
+			//random seed
+			Random rnd = new Random();
+			int seedRand = rnd.Next(-100000, 100000);
+
+			SimplexNoise.Noise.Seed = seedRand;
+
+			for (int x = 0; x < size; x++)
+			{
+				for (int z = 0; z < size; z++)
+				{
+					heightMap[x, z] = SimplexNoise.Noise.CalcPixel2D(x, z, 0.01f);
+				}
+			}
+			return heightMap;
 		}
 
 		//generates correct block faces
-		public void GenBlocks()
+		public void GenBlocks(float[,] heightMap)
 		{
-            for (int i = 0; i < 3; i++)
+            for (int x = 0; x < size; x++)
             {
-				Block block = new Block(new Vector3(i, 0, 0));
-
-				var frontFaceData = block.GetFace(Faces.front);
-				chunkVerts.AddRange(frontFaceData.vertices);
-				chunkUVs.AddRange(frontFaceData.uv);
-
-				var leftFaceData = block.GetFace(Faces.left);
-				chunkVerts.AddRange(leftFaceData.vertices);
-				chunkUVs.AddRange(leftFaceData.uv);
-
-				var rightFaceData = block.GetFace(Faces.right);
-				chunkVerts.AddRange(rightFaceData.vertices);
-				chunkUVs.AddRange(rightFaceData.uv);
-
-				var backFaceData = block.GetFace(Faces.back);
-				chunkVerts.AddRange(backFaceData.vertices);
-				chunkUVs.AddRange(backFaceData.uv);
-
-				var topFaceData = block.GetFace(Faces.top);
-				chunkVerts.AddRange(topFaceData.vertices);
-				chunkUVs.AddRange(topFaceData.uv);
-
-				var bottomFaceData = block.GetFace(Faces.bottom);
-				chunkVerts.AddRange(bottomFaceData.vertices);
-				chunkUVs.AddRange(bottomFaceData.uv);
-
-
-				AddFaceIndices(6);
-            }
+				for (int z = 0; z < size; z++)
+				{
+					int columnHeight = (int)(heightMap[x, z] / 10);
+					for (int y = 0; y < maxChunkHeight; y++)
+					{
+						if (y < columnHeight)
+						{
+							chunkBlocks[x, y, z] = new Block(new Vector3(x, y, z), BlockType.stone);
+						}
+						else
+						{
+							chunkBlocks[x, y, z] = new Block(new Vector3(x, y, z), BlockType.air);
+						}
+					}
+				}
+			}
         }
+
+		public void GenFaces(float[,] heightMap)
+		{
+
+			for (int x = 0; x < size; x++)
+			{
+				for (int z = 0; z < size; z++)
+				{
+					int columnHeight = (int)(heightMap[x, z] / 10);
+					for (int y = 0; y < columnHeight; y++)
+					{
+						int numFaces = 0;
+						//left faces
+						if (x > 0)
+						{
+							if (chunkBlocks[x - 1, y, z].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.left);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.left);
+							numFaces++;
+						}
+
+						//right faces
+						if (x < size - 1)
+						{
+							if (chunkBlocks[x + 1, y, z].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.right);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.right);
+							numFaces++;
+						}
+
+						//top faces
+						if (y < columnHeight - 1)
+						{
+							if (chunkBlocks[x, y + 1, z].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.top);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.top);
+							numFaces++;
+						}
+
+						//bottom faces
+						if (y > 0)
+						{
+							if (chunkBlocks[x, y - 1, z].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.bottom);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.bottom);
+							numFaces++;
+						}
+
+						//front faces
+						if (z < size - 1)
+						{
+							if (chunkBlocks[x, y, z + 1].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.front);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.front);
+							numFaces++;
+						}
+
+						//back faces
+						if (z > 0)
+						{
+							if (chunkBlocks[x, y, z - 1].type == BlockType.air)
+							{
+								IntegrateFace(chunkBlocks[x, y, z], Faces.back);
+								numFaces++;
+							}
+						}
+						else
+						{
+							IntegrateFace(chunkBlocks[x, y, z], Faces.back);
+							numFaces++;
+						}
+
+
+						AddFaceIndices(numFaces);
+					}
+				}
+			}
+		}
+
+		public void IntegrateFace(Block block, Faces face)
+		{
+			var faceData = block.GetFace(face);
+			chunkVerts.AddRange(faceData.vertices);
+			chunkUVs.AddRange(faceData.uv);
+		}
 
 		public void AddFaceIndices(int amount)
 		{

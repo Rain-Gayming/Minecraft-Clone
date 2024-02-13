@@ -19,6 +19,8 @@ namespace MinecraftClone.Scripts.World
 	{
 		public Vector3 position;
 
+		public BlockType type;
+
 		private Dictionary<Faces, FaceData> faces;
 
 		public List<Vector2> dirtUV = new List<Vector2>
@@ -29,9 +31,10 @@ namespace MinecraftClone.Scripts.World
 			new Vector2(0f, 0f),
 		};
 
-		public Block(Vector3 position)
+		public Block(Vector3 position, BlockType blockType = BlockType.air)
 		{
 			this.position = position;
+			this.type = blockType;
 
 			faces = new Dictionary<Faces, FaceData>
 			{
