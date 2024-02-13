@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MinecraftClone.Player;
+
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -121,8 +123,15 @@ namespace MinecraftClone
 		//tranformation variables
 		float yRot = 0f;
 
+		//camera
+		public Camera camera;
+
 		//width and height of screen
 		int width, height;
+
+		//game variables
+		public bool isPaused;
+
 		//constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
 		public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
 		{
@@ -146,6 +155,14 @@ namespace MinecraftClone
 		{
 			base.OnLoad();
 
+			Render();
+
+			camera = new Camera(width, height, Vector3.Zero);
+			CursorState = CursorState.Grabbed;
+		}
+
+		public void Render()
+		{
 			//generate the vbo
 			vao = GL.GenVertexArray();
 
@@ -254,6 +271,7 @@ namespace MinecraftClone
 
 			GL.Enable(EnableCap.DepthTest);
 		}
+		
 		//called once when game is closed
 		protected override void OnUnload()
 		{
@@ -284,9 +302,8 @@ namespace MinecraftClone
 
 			//transformation marices
 			Matrix4 model = Matrix4.Identity;
-			Matrix4 view = Matrix4.Identity;
-			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(60.0f), width / height, 0.1f, 100.0f);
-
+			Matrix4 view = camera.GetViewMatrix();
+			Matrix4 projection = camera.GetProjectionMatrix();
 			//moves the vertices back so the camera can see them
 			Matrix4 translation = Matrix4.CreateTranslation(0f, 0f, -3f);
 
@@ -314,9 +331,37 @@ namespace MinecraftClone
 		//called every frame. All updating happens here
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
+			MouseState mouse = MouseState;
+			KeyboardState input = KeyboardState;
+
 			base.OnUpdateFrame(args);
+			camera.Update(input, mouse, args);
+			InputController(input, mouse, args);
 		}
 
+
+		public void InputController(KeyboardState input, MouseState mouse, FrameEventArgs e)
+		{
+			if (input.IsKeyDown(Keys.Escape))
+			{
+				TogglePause();
+			}
+		}
+			
+		public void TogglePause()
+		{
+			isPaused = !isPaused;
+
+			if (isPaused)
+			{
+				CursorState = CursorState.Normal;
+			}
+			else
+			{
+				CursorState = CursorState.Grabbed;
+			}
+		}
+		
 		//Function to load a text file and return its contents as a string
 		public static string LoadShaderSource(string filePath)
 		{
