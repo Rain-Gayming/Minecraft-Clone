@@ -20,32 +20,33 @@ namespace MinecraftClone
 {
 	internal class Game : GameWindow
 	{
-		// set of vertices to draw the triangle with (x,y,z) for each vertex
-		float[] vertices =
+		//set of vertices to draw the triangle with (x,y,z) for each vertex
+		List<Vector3> vertices = new List<Vector3>()
 		{
-			-0.5f, 0.5f, 0f, // top left vertex - 0
-            0.5f, 0.5f, 0f, // top right vertex - 1
-            0.5f, -0.5f, 0f, // bottom right - 2
-            -0.5f, -0.5f, 0f // bottom left - 3
-        };
+			new Vector3(-0.5f, 0.5f, -0.5f), //top left
+			new Vector3(0.5f, 0.5f, -0.5f), //top right
+			new Vector3(0.5f, -0.5f, -0.5f), //bottom right
+			new Vector3(-0.5f, -0.5f, -0.5f), //bottom left
+		};
 
-		float[] texCoords =
+		//coordinates for where the textures render
+		List<Vector2> texCoords = new List<Vector2>()
 		{
-			0f, 1f,
-			1f, 1f,
-			1f, 0f,
-			0f, 0f
+			new Vector2(0f, 1f),
+			new Vector2(1f, 1f),
+			new Vector2(1f, 0f),
+			new Vector2(0f, 0f),
 		};
 
 		uint[] indices =
 		{
-            // top triangle
+            //top triangle
             0, 1, 2,
-            // bottom triangle
+            //bottom triangle
             2, 3, 0
 		};
 
-		// Render Pipeline vars
+		//Render Pipeline vars
 		int vao;
 		int shaderProgram;
 		int vbo;
@@ -53,18 +54,18 @@ namespace MinecraftClone
 		int ebo;
 		int textureID;
 
-		// width and height of screen
+		//width and height of screen
 		int width, height;
-		// Constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
+		//Constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
 		public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
 		{
 			this.width = width;
 			this.height = height;
 
-			// center window
+			//center window
 			CenterWindow(new Vector2i(width, height));
 		}
-		// called whenever window is resized
+		//called whenever window is resized
 		protected override void OnResize(ResizeEventArgs e)
 		{
 			base.OnResize(e);
@@ -73,32 +74,32 @@ namespace MinecraftClone
 			this.height = e.Height;
 		}
 
-		// called once when game is started
+		//called once when game is started
 		protected override void OnLoad()
 		{
 			base.OnLoad();
 
-			// generate the vbo
+			//generate the vbo
 			vao = GL.GenVertexArray();
 
-			// bind the vao
+			//bind the vao
 			GL.BindVertexArray(vao);
 
 			#region vertices VBO
 
-			// generate a buffer
+			//generate a buffer
 			vbo = GL.GenBuffer();
-			// bind the buffer as an array buffer
+			//bind the buffer as an array buffer
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-			// Store data in the vbo
-			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+			//Store data in the vbo
+			GL.BufferData(BufferTarget.ArrayBuffer, vertices.Count * Vector3.SizeInBytes, vertices.ToArray(), BufferUsageHint.StaticDraw);
 
 
-			// put the vertex VBO in slot 0 of our VAO
+			//put the vertex VBO in slot 0 of our VAO
 
-			// point slot (0) of the VAO to the currently bound VBO (vbo)
+			//point slot (0) of the VAO to the currently bound VBO (vbo)
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-			// enable the slot
+			//enable the slot
 			GL.EnableVertexArrayAttrib(vao, 0);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
@@ -109,21 +110,21 @@ namespace MinecraftClone
 
 			textureVBO = GL.GenBuffer();
 			GL.BindBuffer(BufferTarget.ArrayBuffer, textureVBO);
-			GL.BufferData(BufferTarget.ArrayBuffer, texCoords.Length * sizeof(float), texCoords, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, texCoords.Count * Vector2.SizeInBytes, texCoords.ToArray(), BufferUsageHint.StaticDraw);
 
 
-			// put the texture VBO in slot 1 of our VAO
+			//put the texture VBO in slot 1 of our VAO
 
-			// point slot (1) of the VAO to the currently bound VBO (vbo)
+			//point slot (1) of the VAO to the currently bound VBO (vbo)
 			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 0, 0);
-			// enable the slot
+			//enable the slot
 			GL.EnableVertexArrayAttrib(vao, 1);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 			#endregion
 
 			#region vbo vao binding
-			// unbind the vbo and vao respectively
+			//unbind the vbo and vao respectively
 
 			GL.BindVertexArray(0);
 
@@ -136,99 +137,121 @@ namespace MinecraftClone
 
 			#region shaders
 
-			// create the shader program
+			//create the shader program
 			shaderProgram = GL.CreateProgram();
 
-			// create the vertex shader
+			//create the vertex shader
 			int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-			// add the source code from "Default.vert" in the Shaders file
+			//add the source code from "Default.vert" in the Shaders file
 			GL.ShaderSource(vertexShader, LoadShaderSource("Default.vert"));
-			// Compile the Shader
+			//Compile the Shader
 			GL.CompileShader(vertexShader);
 
-			// Same as vertex shader
+			//Same as vertex shader
 			int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
 			GL.ShaderSource(fragmentShader, LoadShaderSource("Default.frag"));
 			GL.CompileShader(fragmentShader);
 
-			// Attach the shaders to the shader program
+			//Attach the shaders to the shader program
 			GL.AttachShader(shaderProgram, vertexShader);
 			GL.AttachShader(shaderProgram, fragmentShader);
 
-			// Link the program to OpenGL
+			//Link the program to OpenGL
 			GL.LinkProgram(shaderProgram);
 
-			// delete the shaders
+			//delete the shaders
 			GL.DeleteShader(vertexShader);
 			GL.DeleteShader(fragmentShader);
 			#endregion
 
 			#region textures
 			textureID = GL.GenTexture();
-			// activate the texture in the unit
+			//activate the texture in the unit
 			GL.ActiveTexture(TextureUnit.Texture0);
 			GL.BindTexture(TextureTarget.Texture2D, textureID);
 
-			// texture parameters
+			//texture parameters
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
-			// load image
+			//load image
 			StbImage.stbi_set_flip_vertically_on_load(1);
 			ImageResult dirtTexture = ImageResult.FromStream(File.OpenRead("../../../Textures/dirtTex.PNG"), ColorComponents.RedGreenBlueAlpha);
 
 			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, dirtTexture.Width, dirtTexture.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, dirtTexture.Data);
-			// unbind the texture
+			//unbind the texture
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 			#endregion
 		}
-		// called once when game is closed
+		//called once when game is closed
 		protected override void OnUnload()
 		{
 			base.OnUnload();
 
-			// Delete, VAO, VBO, Shader Program
+			//Delete, VAO, VBO, Shader Program
 			GL.DeleteVertexArray(vao);
 			GL.DeleteBuffer(vbo);
 			GL.DeleteBuffer(ebo);
 			GL.DeleteTexture(textureID);
 			GL.DeleteProgram(shaderProgram);
 		}
-		// called every frame. All rendering happens here
+		//called every frame. All rendering happens here
 		protected override void OnRenderFrame(FrameEventArgs args)
 		{
-			// Set the color to fill the screen with
+			//Set the color to fill the screen with
 			GL.ClearColor(0.3f, 0.3f, 1f, 1f);
-			// Fill the screen with the color
+			//Fill the screen with the color
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
 
-			// draw our triangle
-			GL.UseProgram(shaderProgram); // bind vao
-			GL.BindVertexArray(vao); // use shader program
+			//draw our triangle
+			GL.UseProgram(shaderProgram); //bind vao
+			GL.BindVertexArray(vao); //use shader program
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 
 			GL.BindTexture(TextureTarget.Texture2D, textureID);
 
+			//transformation marices
+			Matrix4 model = Matrix4.Identity;
+			Matrix4 view = Matrix4.Identity;
+			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(60.0f), width / height, 0.1f, 100.0f);
+
+			//rotates the model
+			model = Matrix4.CreateRotationY(45f);
+
+			//moves the vertices back so the camera can see them
+			Matrix4 translation = Matrix4.CreateTranslation(0f, 0f, -3f);
+
+			model *= translation;
+
+			//sets the variables in the shaders
+			int modelLocation = GL.GetUniformLocation(shaderProgram, "model");
+			int viewLocation = GL.GetUniformLocation(shaderProgram, "view");
+			int projectionLocation = GL.GetUniformLocation(shaderProgram, "projection");
+
+			GL.UniformMatrix4(modelLocation, true, ref model);
+			GL.UniformMatrix4(viewLocation, true, ref view);
+			GL.UniformMatrix4(projectionLocation, true, ref projection);
+
 			GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
-			//GL.DrawArrays(PrimitiveType.Triangles, 0, 3); // draw the triangle | args = Primitive type, first vertex, last vertex
+			//GL.DrawArrays(PrimitiveType.Triangles, 0, 3); //draw the triangle | args = Primitive type, first vertex, last vertex
 
 
-			// swap the buffers
+			//swap the buffers
 			Context.SwapBuffers();
 
 			base.OnRenderFrame(args);
 		}
-		// called every frame. All updating happens here
+		//called every frame. All updating happens here
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
 			base.OnUpdateFrame(args);
 		}
 
-		// Function to load a text file and return its contents as a string
+		//Function to load a text file and return its contents as a string
 		public static string LoadShaderSource(string filePath)
 		{
 			string shaderSource = "";
