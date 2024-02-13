@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vm7tFfqL1au32GSEaZd5S5siQPRkBS4D73rxTSCErkWZNGH4Oe0uY1+9ngHRPGpb/y51sHqeXw5rlie8fVN8Jw==",
+  "dgSpecHash": "AbtYqMjTjqZAPQcC2WNcprhWHymEsYtS00Df4ZN6fO4zZL5iNCUQsdPiUOHFOH2FsXh0FeyfufKFeT9hXomUKw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\MinecraftClone.csproj",
+  "projectFilePath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kenor\\.nuget\\packages\\opentk\\4.8.2\\opentk.4.8.2.nupkg.sha512",
     "C:\\Users\\Kenor\\.nuget\\packages\\opentk.audio.openal\\4.8.2\\opentk.audio.openal.4.8.2.nupkg.sha512",

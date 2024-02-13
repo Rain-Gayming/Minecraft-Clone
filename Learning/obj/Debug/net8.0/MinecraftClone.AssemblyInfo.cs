@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MinecraftClone")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efc72578113a99be23af2a6071db56cfa38ff0f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MinecraftClone")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MinecraftClone")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

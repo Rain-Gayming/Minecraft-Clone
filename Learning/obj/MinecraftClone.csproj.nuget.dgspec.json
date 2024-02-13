@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\MinecraftClone.csproj": {}
+    "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\MinecraftClone.csproj": {
+    "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\MinecraftClone.csproj",
+        "projectUniqueName": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj",
         "projectName": "MinecraftClone",
-        "projectPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\MinecraftClone.csproj",
+        "projectPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj",
         "packagesPath": "C:\\Users\\Kenor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Learning\\Learning\\obj\\",
+        "outputPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
