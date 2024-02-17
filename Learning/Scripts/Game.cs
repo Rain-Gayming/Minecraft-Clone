@@ -41,6 +41,8 @@ namespace MinecraftClone.Scripts
         public bool isPaused;
         public int renderDistance = 16;
 
+        public World.WorldManager wm;
+
         //constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
         public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
         {
@@ -68,30 +70,33 @@ namespace MinecraftClone.Scripts
 
             chunks = new List<Chunk>();
 
-
-            //sets the position for the chunks to be centered
-            Vector3 startPos = Vector3.Zero;
+            //moved to WorldManager.cs
+            
+            /*Vector3 startPos = Vector3.Zero;
 			startPos.X -= renderDistance * 8;
 			startPos.Z -= renderDistance * 8;
 
-			for (int x = 0; x < renderDistance; x++)
-			{
-				Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
+            for (int x = 0; x < renderDistance; x++)
+            {
+                Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
 
-				vPos.X = startPos.X + (16 * x);
-				chunks.Add(new Chunk(vPos));
-				for (int y = 0; y < renderDistance; y++)
-				{
+                vPos.X = startPos.X + (16 * x);
+                chunks.Add(new Chunk(vPos));
+                for (int y = 0; y < renderDistance; y++)
+                {
                     Vector3 cPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
                     cPos.X = vPos.X;
                     cPos.Z = startPos.X + (y * 16);
-					chunks.Add(new Chunk(cPos));
-				}
-            }			
+                    chunks.Add(new Chunk(cPos));
+                }
+            }*/	
 
             program = new ShaderProgram("Default.vert", "Default.frag");
 
 			Render();
+
+            wm = new WorldManager(renderDistance);
+            wm.GenerateWorld();
 
             camera = new Camera(width, height, new Vector3(0, 25, 0));
             CursorState = CursorState.Grabbed;
@@ -214,6 +219,5 @@ namespace MinecraftClone.Scripts
 
             return shaderSource;
         }
-
     }
 }

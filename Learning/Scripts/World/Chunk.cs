@@ -254,7 +254,6 @@ namespace MinecraftClone.Scripts.World
 			chunkIBO.Bind();
 			texture.Bind();
 			GL.DrawElements(PrimitiveType.Triangles, chunkIndices.Count, DrawElementsType.UnsignedInt, 0);
-
 		}
 
 		public void Delete()
