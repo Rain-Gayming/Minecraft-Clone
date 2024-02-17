@@ -1,10 +1,23 @@
-﻿using System;
-using System.Collections;
+﻿//System
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using MinecraftClone.Scripts.Graphics;
+using MinecraftClone.Scripts.Player;
+using MinecraftClone.Scripts.World;
+
+
+//Open TK
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+
+//STB
+using StbImageSharp;
 
 namespace MinecraftClone.Scripts.World
 {

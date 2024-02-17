@@ -5,3 +5,5 @@
 *.exe
 *.pdb
 *.cache
+*.dll
+Learning/obj/Debug/net8.0/refint/MinecraftClone.dll

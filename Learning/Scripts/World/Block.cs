@@ -23,7 +23,15 @@ namespace MinecraftClone.Scripts.World
 
 		private Dictionary<Faces, FaceData> faces;
 
-		public Dictionary<Faces, List<Vector2>> blockUV;
+		public Dictionary<Faces, List<Vector2>> blockUV = new Dictionary<Faces, List<Vector2>>()
+		{
+			{Faces.front, new List<Vector2>() },
+			{Faces.back, new List<Vector2>() },
+			{Faces.top, new List<Vector2>() },
+			{Faces.bottom, new List<Vector2>() },
+			{Faces.left, new List<Vector2>() },
+			{Faces.right, new List<Vector2>() },
+		};
 
 		public Block(Vector3 position, BlockType blockType = BlockType.air)
 		{
