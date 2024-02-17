@@ -30,7 +30,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.front, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}
@@ -38,7 +38,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.back, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}
@@ -46,7 +46,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.top, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}
@@ -54,7 +54,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.bottom, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}
@@ -62,7 +62,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.left, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}
@@ -70,7 +70,7 @@ namespace MinecraftClone.Scripts.World
 				{Faces.right, new List<Vector2>()
 				{
 					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/161f),
+					new Vector2(3/16f, 15/16f),
 					new Vector2(3/16f, 1f),
 					new Vector2(2/16f, 1f),
 				}

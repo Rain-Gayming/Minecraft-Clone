@@ -242,7 +242,7 @@ namespace MinecraftClone.Scripts.World
 			chunkVAO.LinkToVAO(1, 2, chunkUVVBO);
 
 			chunkIBO = new IBO(chunkIndices);
-			texture = new Texture("dirtTex.png");
+			texture = new Texture("atlas.png");
 		}
 
 		//renders the cunk
