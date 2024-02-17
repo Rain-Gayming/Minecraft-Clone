@@ -23,60 +23,38 @@ namespace MinecraftClone.Scripts.World
 {
 	internal class TextureData
 	{
-		public static readonly Dictionary<BlockType, Dictionary<Faces, List<Vector2>>> blockTypeUVs = new Dictionary<BlockType, Dictionary<Faces, List<Vector2>>>()
+		public static Dictionary<BlockType, Dictionary<Faces, Vector2>> blockTypeUVCoord = new Dictionary<BlockType, Dictionary<Faces, Vector2>>()
 		{
-			{BlockType.dirt, new Dictionary<Faces, List<Vector2>>()
-			{
-				{Faces.front, new List<Vector2>()
+			{BlockType.dirt, new Dictionary<Faces, Vector2>()
 				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
+					{Faces.top, new Vector2(2, 15) },
+					{Faces.bottom, new Vector2(2, 15) },
+					{Faces.front, new Vector2(2, 15) },
+					{Faces.back, new Vector2(2, 15) },
+					{Faces.left, new Vector2(2, 15) },
+					{Faces.right, new Vector2(2, 15) },
 				}
-				},
-				{Faces.back, new List<Vector2>()
+			},
+			{BlockType.grass, new Dictionary<Faces, Vector2>()
 				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
+					{Faces.top, new Vector2(7, 13) },
+					{Faces.bottom, new Vector2(2, 15) },
+					{Faces.front, new Vector2(3, 15) },
+					{Faces.back, new Vector2(3, 15) },
+					{Faces.left, new Vector2(3, 15) },
+					{Faces.right, new Vector2(3, 15) },
 				}
-				},
-				{Faces.top, new List<Vector2>()
+			},
+			{BlockType.stone, new Dictionary<Faces, Vector2>()
 				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
+					{Faces.top, new Vector2(1, 15) },
+					{Faces.bottom, new Vector2(1, 15) },
+					{Faces.front, new Vector2(1, 15) },
+					{Faces.back, new Vector2(1, 15) },
+					{Faces.left, new Vector2(1, 15) },
+					{Faces.right, new Vector2(1, 15) },
 				}
-				},
-				{Faces.bottom, new List<Vector2>()
-				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
-				}
-				},
-				{Faces.left, new List<Vector2>()
-				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
-				}
-				},
-				{Faces.right, new List<Vector2>()
-				{
-					new Vector2(2/16f, 15/16f),
-					new Vector2(3/16f, 15/16f),
-					new Vector2(3/16f, 1f),
-					new Vector2(2/16f, 1f),
-				}
-				},
-			}
-			}
+			},
 		};
 	}
 }

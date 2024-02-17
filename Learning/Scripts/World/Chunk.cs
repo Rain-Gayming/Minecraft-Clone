@@ -24,7 +24,7 @@ namespace MinecraftClone.Scripts.World
 		private List<uint> chunkIndices;
 
 		const int size = 16;
-		const int maxChunkHeight = 32;
+		const int maxChunkHeight = 64;
 		public Vector3 position;
 
 		uint indexCount;
@@ -84,14 +84,21 @@ namespace MinecraftClone.Scripts.World
 					int columnHeight = (int)(heightMap[x, z] / 10);
 					for (int y = 0; y < maxChunkHeight; y++)
 					{
-						if (y < columnHeight)
+						BlockType type = BlockType.air;
+						if (y < columnHeight - 1)
 						{
-							chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), BlockType.dirt);
+							type = BlockType.dirt;
 						}
-						else
+						if (y == columnHeight - 1)
 						{
-							chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), BlockType.air);
+							type = BlockType.grass;
 						}
+
+						if (y <= columnHeight - 5)
+						{
+							type = BlockType.stone;
+						}
+						chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), type);						
 					}
 				}
 			}
@@ -104,102 +111,104 @@ namespace MinecraftClone.Scripts.World
 			{
 				for (int z = 0; z < size; z++)
 				{
-					int columnHeight = (int)(heightMap[x, z] / 10);
-					for (int y = 0; y < columnHeight; y++)
+					for (int y = 0; y < maxChunkHeight; y++)
 					{
 						int numFaces = 0;
-						//left faces
-						if (x > 0)
-						{
-							if (chunkBlocks[x - 1, y, z].type == BlockType.air)
+
+						if (chunkBlocks[x, y, z].type != BlockType.air)
+						{//left faces
+							if (x > 0)
+							{
+								if (chunkBlocks[x - 1, y, z].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.left);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.left);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.left);
-							numFaces++;
-						}
 
-						//right faces
-						if (x < size - 1)
-						{
-							if (chunkBlocks[x + 1, y, z].type == BlockType.air)
+							//right faces
+							if (x < size - 1)
+							{
+								if (chunkBlocks[x + 1, y, z].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.right);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.right);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.right);
-							numFaces++;
-						}
 
-						//top faces
-						if (y < columnHeight - 1)
-						{
-							if (chunkBlocks[x, y + 1, z].type == BlockType.air)
+							//top faces
+							if (y < maxChunkHeight - 1)
+							{
+								if (chunkBlocks[x, y + 1, z].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.top);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.top);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.top);
-							numFaces++;
-						}
 
-						//bottom faces
-						if (y > 0)
-						{
-							if (chunkBlocks[x, y - 1, z].type == BlockType.air)
+							//bottom faces
+							if (y > 0)
+							{
+								if (chunkBlocks[x, y - 1, z].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.bottom);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.bottom);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.bottom);
-							numFaces++;
-						}
 
-						//front faces
-						if (z < size - 1)
-						{
-							if (chunkBlocks[x, y, z + 1].type == BlockType.air)
+							//front faces
+							if (z < size - 1)
+							{
+								if (chunkBlocks[x, y, z + 1].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.front);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.front);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.front);
-							numFaces++;
-						}
 
-						//back faces
-						if (z > 0)
-						{
-							if (chunkBlocks[x, y, z - 1].type == BlockType.air)
+							//back faces
+							if (z > 0)
+							{
+								if (chunkBlocks[x, y, z - 1].type == BlockType.air)
+								{
+									IntegrateFace(chunkBlocks[x, y, z], Faces.back);
+									numFaces++;
+								}
+							}
+							else
 							{
 								IntegrateFace(chunkBlocks[x, y, z], Faces.back);
 								numFaces++;
 							}
-						}
-						else
-						{
-							IntegrateFace(chunkBlocks[x, y, z], Faces.back);
-							numFaces++;
-						}
 
 
-						AddFaceIndices(numFaces);
+							AddFaceIndices(numFaces);
+						}						
 					}
 				}
 			}

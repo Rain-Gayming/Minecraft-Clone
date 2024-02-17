@@ -23,12 +23,30 @@ namespace MinecraftClone.Scripts.World
 
 		private Dictionary<Faces, FaceData> faces;
 
+
+		public Dictionary<Faces, List<Vector2>> GetUVsFromCoordinates(Dictionary<Faces, Vector2> coords)
+		{
+			Dictionary<Faces, List<Vector2>> faceData = new Dictionary<Faces, List<Vector2>>();
+
+			foreach (var faceCoord in coords)
+			{
+				faceData[faceCoord.Key] = new List<Vector2>()
+				{
+					new Vector2((faceCoord.Value.X + 1)/ 16, (faceCoord.Value.Y + 1) / 16),
+					new Vector2(faceCoord.Value.X / 16, (faceCoord.Value.Y + 1) / 16),
+					new Vector2(faceCoord.Value.X / 16, faceCoord.Value.Y / 16),
+					new Vector2((faceCoord.Value.X + 1) / 16, faceCoord.Value.Y / 16),
+				};
+			}
+
+			return faceData;
+		}
 		public Dictionary<Faces, List<Vector2>> blockUV = new Dictionary<Faces, List<Vector2>>()
 		{
-			{Faces.front, new List<Vector2>() },
-			{Faces.back, new List<Vector2>() },
 			{Faces.top, new List<Vector2>() },
 			{Faces.bottom, new List<Vector2>() },
+			{Faces.front, new List<Vector2>() },
+			{Faces.back, new List<Vector2>() },
 			{Faces.left, new List<Vector2>() },
 			{Faces.right, new List<Vector2>() },
 		};
@@ -40,25 +58,11 @@ namespace MinecraftClone.Scripts.World
 
 			if(blockType != BlockType.air)
 			{
-				blockUV = TextureData.blockTypeUVs[blockType];
+				blockUV = GetUVsFromCoordinates(TextureData.blockTypeUVCoord[blockType]);
 			}
 
 			faces = new Dictionary<Faces, FaceData>
 			{
-				{
-					Faces.front, new FaceData
-					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.front]),
-						uv = blockUV[Faces.front]
-					}
-				},
-				{
-					Faces.back, new FaceData
-					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.back]),
-						uv = blockUV[Faces.back]
-					}
-				},
 				{
 					Faces.top, new FaceData
 					{
@@ -71,6 +75,20 @@ namespace MinecraftClone.Scripts.World
 					{
 						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.bottom]),
 						uv = blockUV[Faces.bottom]
+					}
+				},
+				{
+					Faces.front, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.front]),
+						uv = blockUV[Faces.front]
+					}
+				},
+				{
+					Faces.back, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.back]),
+						uv = blockUV[Faces.back]
 					}
 				},
 				{
