@@ -126,7 +126,7 @@ namespace MinecraftClone.Scripts.Player
         }
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), width / height, 0.01f, 100f);
+            return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), width / height, 0.01f, 10000f);
         }
     }
 }

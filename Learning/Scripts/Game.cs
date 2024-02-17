@@ -25,6 +25,7 @@ namespace MinecraftClone.Scripts
     internal class Game : GameWindow
     {
         Chunk chunk;
+        public List<Chunk> chunks;
         ShaderProgram program;
 
         //tranformation variables
@@ -38,6 +39,7 @@ namespace MinecraftClone.Scripts
 
         //game variables
         public bool isPaused;
+        public int renderDistance = 16;
 
         //constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
         public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
@@ -62,12 +64,36 @@ namespace MinecraftClone.Scripts
         {
             base.OnLoad();
 
-            chunk = new Chunk(Vector3.Zero);
+            //chunk = new Chunk(Vector3.Zero);
+
+            chunks = new List<Chunk>();
+
+
+            //sets the position for the chunks to be centered
+            Vector3 startPos = Vector3.Zero;
+			startPos.X -= renderDistance * 8;
+			startPos.Z -= renderDistance * 8;
+
+			for (int x = 0; x < renderDistance; x++)
+			{
+				Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
+
+				vPos.X = startPos.X + (16 * x);
+				chunks.Add(new Chunk(vPos));
+				for (int y = 0; y < renderDistance; y++)
+				{
+                    Vector3 cPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
+                    cPos.X = vPos.X;
+                    cPos.Z = startPos.X + (y * 16);
+					chunks.Add(new Chunk(cPos));
+				}
+            }			
+
             program = new ShaderProgram("Default.vert", "Default.frag");
 
 			Render();
 
-            camera = new Camera(width, height, Vector3.Zero);
+            camera = new Camera(width, height, new Vector3(0, 25, 0));
             CursorState = CursorState.Grabbed;
         }
 
@@ -76,6 +102,9 @@ namespace MinecraftClone.Scripts
             program = new ShaderProgram("Default.vert", "Default.frag");
             
 			GL.Enable(EnableCap.DepthTest);
+            GL.FrontFace(FrontFaceDirection.Cw);
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
         }
 
         //called once when game is closed
@@ -83,7 +112,12 @@ namespace MinecraftClone.Scripts
         {
             base.OnUnload();
 
-            chunk.Delete();
+            for (int i = 0; i < chunks.Count; i++)
+            {
+                chunks[i].Delete();
+            }
+
+            //chunk.Delete();
             program.Delete();
         }
         //called every frame. All rendering happens here
@@ -109,7 +143,12 @@ namespace MinecraftClone.Scripts
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-            chunk.Render(program);
+            for (int i = 0; i < chunks.Count; i++)
+            {
+                chunks[i].Render(program);
+            }
+
+            //chunk.Render(program);
 
             //GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt, 0);
 

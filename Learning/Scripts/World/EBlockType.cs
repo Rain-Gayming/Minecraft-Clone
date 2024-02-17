@@ -9,6 +9,8 @@ namespace MinecraftClone.Scripts.World
 	public enum BlockType
 	{
 		air,
-		stone
+		grass,
+		dirt,
+		stone,
 	}
 }

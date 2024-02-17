@@ -87,11 +87,11 @@ namespace MinecraftClone.Scripts.World
 					{
 						if (y < columnHeight)
 						{
-							chunkBlocks[x, y, z] = new Block(new Vector3(x, y, z), BlockType.stone);
+							chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), BlockType.stone);
 						}
 						else
 						{
-							chunkBlocks[x, y, z] = new Block(new Vector3(x, y, z), BlockType.air);
+							chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), BlockType.air);
 						}
 					}
 				}
