@@ -51,7 +51,7 @@ namespace MinecraftClone.Scripts.World
 				vPos.X = startPos.X + (16 * x);
 				
 				//adds the chunk to the list 
-				chunks.Add(new Chunk(vPos));
+				chunks.Add(new Chunk(vPos, heightMap));
 
 				for (int y = 0; y < renderDistance; y++)
 				{
@@ -61,7 +61,7 @@ namespace MinecraftClone.Scripts.World
 					cPos.Z = startPos.X + (y * 16);
 
 					//adds the chunk to the list 
-					chunks.Add(new Chunk(cPos));
+					chunks.Add(new Chunk(cPos, heightMap));
 				}
 			}
 
@@ -71,7 +71,7 @@ namespace MinecraftClone.Scripts.World
 		//generates heightmap
 		public float[,] GenerateHeightMap()
 		{
-			float[,] heightMap = new float[16, 16];
+			float[,] heightMap = new float[256, 256];
 
 			//random seed
 			Random rnd = new Random();
@@ -79,9 +79,9 @@ namespace MinecraftClone.Scripts.World
 
 			SimplexNoise.Noise.Seed = seedRand;
 
-			for (int x = 0; x < 16; x++)
+			for (int x = 0; x < 256; x++)
 			{
-				for (int z = 0; z < 16; z++)
+				for (int z = 0; z < 256; z++)
 				{
 					heightMap[x, z] = SimplexNoise.Noise.CalcPixel2D(x, z, 0.01f);
 				}

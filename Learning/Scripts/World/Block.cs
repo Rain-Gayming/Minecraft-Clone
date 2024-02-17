@@ -23,18 +23,17 @@ namespace MinecraftClone.Scripts.World
 
 		private Dictionary<Faces, FaceData> faces;
 
-		public List<Vector2> dirtUV = new List<Vector2>
-		{
-			new Vector2(0f, 1f),
-			new Vector2(1f, 1f),
-			new Vector2(1f, 0f),
-			new Vector2(0f, 0f),
-		};
+		public Dictionary<Faces, List<Vector2>> blockUV;
 
 		public Block(Vector3 position, BlockType blockType = BlockType.air)
 		{
 			this.position = position;
 			this.type = blockType;
+
+			if(blockType != BlockType.air)
+			{
+				blockUV = TextureData.blockTypeUVs[blockType];
+			}
 
 			faces = new Dictionary<Faces, FaceData>
 			{
@@ -42,44 +41,44 @@ namespace MinecraftClone.Scripts.World
 					Faces.front, new FaceData
 					{
 						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.front]),
-						uv = dirtUV
+						uv = blockUV[Faces.front]
 					}
 				},
 				{
 					Faces.back, new FaceData
 					{
 						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.back]),
-						uv = dirtUV
-					}
-				},
-				{
-					Faces.left, new FaceData
-					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.left]),
-						uv = dirtUV
-					}
-				},
-				{
-					Faces.right, new FaceData
-					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.right]),
-						uv = dirtUV
+						uv = blockUV[Faces.back]
 					}
 				},
 				{
 					Faces.top, new FaceData
 					{
 						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.top]),
-						uv = dirtUV
+						uv = blockUV[Faces.top]
 					}
 				},
 				{
 					Faces.bottom, new FaceData
 					{
 						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.bottom]),
-						uv = dirtUV
+						uv = blockUV[Faces.bottom]
 					}
 				},
+				{
+					Faces.left, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.left]),
+						uv = blockUV[Faces.left]
+					}
+				},
+				{
+					Faces.right, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.right]),
+						uv = blockUV[Faces.right]
+					}
+				}
 
 			};
 		}

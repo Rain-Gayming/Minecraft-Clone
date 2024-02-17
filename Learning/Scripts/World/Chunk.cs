@@ -38,7 +38,7 @@ namespace MinecraftClone.Scripts.World
 
 		Block[,,] chunkBlocks;
 
-		public Chunk(Vector3 position)
+		public Chunk(Vector3 position, float[,] heightMap)
 		{
 			this.position = position;
 
@@ -47,7 +47,6 @@ namespace MinecraftClone.Scripts.World
 			chunkIndices = new List<uint>();
 
 			chunkBlocks = new Block[size, maxChunkHeight, size];
-			float[,] heightMap = GenChunk();
 
 			GenBlocks(heightMap);
 			GenFaces(heightMap);
