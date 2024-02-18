@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MinecraftClone.Scripts.Player;
+using MinecraftClone.Scripts.World.Data;
+
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -15,7 +17,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace MinecraftClone.Scripts.World
 {
-	internal class Block
+    internal class Block
 	{
 		public Vector3 position;
 

@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftClone.Scripts.World
+namespace MinecraftClone.Scripts.World.Data
 {
-	public enum Faces
+	public enum Climate
 	{
-		front,
-		back,
-		left,
-		right,
-		top,
-		bottom
+		hot,
+		warm,
+		neutral,
+		cold,
+		freezing,
 	}
 }

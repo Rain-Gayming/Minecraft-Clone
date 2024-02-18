@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using MinecraftClone.Scripts.Graphics;
 using MinecraftClone.Scripts.Player;
+using MinecraftClone.Scripts.World.Data;
+
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -17,15 +20,17 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace MinecraftClone.Scripts.World
 {
-	internal class Chunk
+    internal class Chunk
 	{
 		private List<Vector3> chunkVerts;
 		private List<Vector2> chunkUVs;
 		private List<uint> chunkIndices;
 
-		const int size = 16;
+		public Biome chunkBiome;
+
+		const int maxChunkSize = 16;
 		const int maxChunkHeight = 64;
-		public Vector3 position;
+		public Vector3 chunkPosition;
 
 		uint indexCount;
 
@@ -40,65 +45,70 @@ namespace MinecraftClone.Scripts.World
 
 		public Chunk(Vector3 position, float[,] heightMap)
 		{
-			this.position = position;
+			this.chunkPosition = position;
 
 			chunkVerts = new List<Vector3>();
 			chunkUVs = new List<Vector2>();
 			chunkIndices = new List<uint>();
 
-			chunkBlocks = new Block[size, maxChunkHeight, size];
+			chunkBlocks = new Block[maxChunkSize, maxChunkHeight, maxChunkSize];
+
+			List<Biome> biomes = new List<Biome>()
+			{
+				new Biome()
+				{
+					topBlock = BlockType.dirt,
+					lowerBlock = BlockType.grass,
+					climate = Climate.neutral,
+				},
+				new Biome()
+				{
+					topBlock = BlockType.grass,
+					lowerBlock = BlockType.dirt,
+					climate = Climate.warm,
+				},
+				new Biome()
+				{
+					topBlock = BlockType.stone,
+					lowerBlock = BlockType.dirt,
+					climate = Climate.cold,
+				},
+			};
+
+			Random rnd = new Random();
+			int seedRand = rnd.Next(0, biomes.Count);
+			chunkBiome = biomes[seedRand];
 
 			GenBlocks(heightMap);
 			GenFaces(heightMap);
 			BuildChunk();
 		}
 
-		//generates data
-		public float[,] GenChunk()
-		{
-			float[,] heightMap = new float[size, size];
-
-			//random seed
-			Random rnd = new Random();
-			int seedRand = rnd.Next(-100000, 100000);
-
-			SimplexNoise.Noise.Seed = seedRand;
-
-			for (int x = 0; x < size; x++)
-			{
-				for (int z = 0; z < size; z++)
-				{
-					heightMap[x, z] = SimplexNoise.Noise.CalcPixel2D(x, z, 0.01f);
-				}
-			}
-			return heightMap;
-		}
-
 		//generates correct block faces
 		public void GenBlocks(float[,] heightMap)
 		{
-            for (int x = 0; x < size; x++)
+            for (int blockX = 0; blockX < maxChunkSize; blockX++)
             {
-				for (int z = 0; z < size; z++)
+				for (int blockZ = 0; blockZ < maxChunkSize; blockZ++)
 				{
-					int columnHeight = (int)(heightMap[x, z] / 10);
-					for (int y = 0; y < maxChunkHeight; y++)
+					int columnHeight = (int)(heightMap[blockX, blockZ] / 20);
+					for (int blockY = 0; blockY < maxChunkHeight; blockY++)
 					{
 						BlockType type = BlockType.air;
-						if (y < columnHeight - 1)
+						if (blockY < columnHeight - 1)
 						{
-							type = BlockType.dirt;
+							type = chunkBiome.lowerBlock;
 						}
-						if (y == columnHeight - 1)
+						if (blockY == columnHeight - 1)
 						{
-							type = BlockType.grass;
+							type = chunkBiome.topBlock;
 						}
 
-						if (y <= columnHeight - 5)
+						if (blockY <= columnHeight - 5)
 						{
 							type = BlockType.stone;
 						}
-						chunkBlocks[x, y, z] = new Block(new Vector3(x + position.X, y, z + position.Z), type);						
+						chunkBlocks[blockX, blockY, blockZ] = new Block(new Vector3(blockX + chunkPosition.X, blockY, blockZ + chunkPosition.Z), type);						
 					}
 				}
 			}
@@ -107,9 +117,9 @@ namespace MinecraftClone.Scripts.World
 		public void GenFaces(float[,] heightMap)
 		{
 
-			for (int x = 0; x < size; x++)
+			for (int x = 0; x < maxChunkSize; x++)
 			{
-				for (int z = 0; z < size; z++)
+				for (int z = 0; z < maxChunkSize; z++)
 				{
 					for (int y = 0; y < maxChunkHeight; y++)
 					{
@@ -132,7 +142,7 @@ namespace MinecraftClone.Scripts.World
 							}
 
 							//right faces
-							if (x < size - 1)
+							if (x < maxChunkSize - 1)
 							{
 								if (chunkBlocks[x + 1, y, z].type == BlockType.air)
 								{
@@ -177,7 +187,7 @@ namespace MinecraftClone.Scripts.World
 							}
 
 							//front faces
-							if (z < size - 1)
+							if (z < maxChunkSize - 1)
 							{
 								if (chunkBlocks[x, y, z + 1].type == BlockType.air)
 								{

@@ -37,7 +37,6 @@ namespace MinecraftClone.Scripts.World
 		public void GenerateWorld()
 		{
 			//generates heightmap
-			float[,] heightMap = GenerateHeightMap();
 
 			//sets the position for the chunks to be centered
 			Vector3 startPos = Vector3.Zero;
@@ -47,6 +46,7 @@ namespace MinecraftClone.Scripts.World
 			for (int x = 0; x < renderDistance; x++)
 			{
 				//x chunk position
+				float[,] heightMap = GenerateHeightMap();
 				Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
 				vPos.X = startPos.X + (16 * x);
 				
@@ -55,13 +55,14 @@ namespace MinecraftClone.Scripts.World
 
 				for (int y = 0; y < renderDistance; y++)
 				{
+					float[,] heightMapY = GenerateHeightMap();
 					//y chunk position acording to x chunk
 					Vector3 cPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
 					cPos.X = vPos.X;
 					cPos.Z = startPos.X + (y * 16);
 
 					//adds the chunk to the list 
-					chunks.Add(new Chunk(cPos, heightMap));
+					chunks.Add(new Chunk(cPos, heightMapY));
 				}
 			}
 

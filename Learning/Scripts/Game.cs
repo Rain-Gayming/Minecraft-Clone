@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MinecraftClone.Scripts.Graphics;
+using MinecraftClone.Scripts.Json;
 using MinecraftClone.Scripts.Player;
 using MinecraftClone.Scripts.World;
 
@@ -26,11 +27,13 @@ namespace MinecraftClone.Scripts
     {
         ShaderProgram program;
 
-        //tranformation variables
-        float yRot = 0f;
+		public World.WorldManager worldManager;
+		public Camera camera;
+        public BiomeJsonManager biomeJsonManager;
 
-        //camera
-        public Camera camera;
+		//tranformation variables
+		float yRot = 0f;
+
 
         //width and height of screen
         int width, height;
@@ -39,7 +42,6 @@ namespace MinecraftClone.Scripts
         public bool isPaused;
         public int renderDistance = 16;
 
-        public World.WorldManager worldManager;
 
         //constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
         public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
@@ -65,14 +67,18 @@ namespace MinecraftClone.Scripts
             base.OnLoad();
 
             program = new ShaderProgram("Default.vert", "Default.frag");
+            biomeJsonManager = new BiomeJsonManager();
 
 			RenderShaders();
+
 
             worldManager = new WorldManager(renderDistance);
             worldManager.GenerateWorld();
 
             camera = new Camera(width, height, new Vector3(0, 25, 0));
             CursorState = CursorState.Grabbed;
+
+            //biomeJsonManager.ReadBiomeJson("Forest");
         }
 
 

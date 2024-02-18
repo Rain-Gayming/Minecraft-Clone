@@ -64,3 +64,4 @@ C:\Users\Kenor\OneDrive\Documents\Coding Projects\C#\Minecraft-Clone\Learning\ob
 C:\Users\Kenor\OneDrive\Documents\Coding Projects\C#\Minecraft-Clone\Learning\obj\Debug\net8.0\MinecraftClone.genruntimeconfig.cache
 C:\Users\Kenor\OneDrive\Documents\Coding Projects\C#\Minecraft-Clone\Learning\obj\Debug\net8.0\ref\MinecraftClone.dll
 C:\Users\Kenor\OneDrive\Documents\Coding Projects\C#\Minecraft-Clone\Learning\bin\Debug\net8.0\SimplexNoise.dll
+C:\Users\Kenor\OneDrive\Documents\Coding Projects\C#\Minecraft-Clone\Learning\bin\Debug\net8.0\Newtonsoft.Json.dll
