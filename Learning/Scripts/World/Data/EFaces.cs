@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MinecraftClone.Scripts.World.Data
 {
+    //the faces of a cube
     public enum Faces
     {
         front,

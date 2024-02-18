@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MinecraftClone.Scripts.World.Data
 {
+    //the block types
     public enum BlockType
     {
         air,

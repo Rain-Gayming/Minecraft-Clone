@@ -23,6 +23,7 @@ namespace MinecraftClone.Scripts.World.Data
 {
     internal class TextureData
     {
+        //sets the texture of each block based off UVs and the atlas
         public static Dictionary<BlockType, Dictionary<Faces, Vector2>> blockTypeUVCoord = new Dictionary<BlockType, Dictionary<Faces, Vector2>>()
         {
             {BlockType.dirt, new Dictionary<Faces, Vector2>()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MinecraftClone.Scripts.World.Data
 {
+    //temporary biome struct probably will change it later
     public struct Biome
     {
         public string biomeName;

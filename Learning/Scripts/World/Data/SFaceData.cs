@@ -16,6 +16,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace MinecraftClone.Scripts.World.Data
 {
+    //the UVs and Vertices of each face
     public struct FaceData
     {
         public List<Vector3> vertices;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MinecraftClone.Scripts.World.Data
 {
+	//climate types for biomes
 	public enum Climate
 	{
 		hot,

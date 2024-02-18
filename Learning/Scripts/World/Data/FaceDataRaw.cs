@@ -18,6 +18,7 @@ namespace MinecraftClone.Scripts.World.Data
 {
     public struct FaceDataRaw
     {
+        //the vertex data needed for a cube
         public static readonly Dictionary<Faces, List<Vector3>> rawVertexData = new Dictionary<Faces, List<Vector3>>
         {
             {
