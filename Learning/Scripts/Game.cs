@@ -66,19 +66,23 @@ namespace MinecraftClone.Scripts
         {
             base.OnLoad();
 
+            //creates shaders
             program = new ShaderProgram("Default.vert", "Default.frag");
+
+            //creates biome json manager
             biomeJsonManager = new BiomeJsonManager();
 
 			RenderShaders();
 
-
+            //creates world manager and generates the world
             worldManager = new WorldManager(renderDistance);
             worldManager.GenerateWorld();
 
+            //spawns camera
             camera = new Camera(width, height, new Vector3(0, 25, 0));
+            
+            //locks the cursor
             CursorState = CursorState.Grabbed;
-
-            //biomeJsonManager.ReadBiomeJson("Forest");
         }
 
 
@@ -87,8 +91,6 @@ namespace MinecraftClone.Scripts
         {
             program = new ShaderProgram("Default.vert", "Default.frag");
             
-
-
 			GL.Enable(EnableCap.DepthTest);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.Enable(EnableCap.CullFace);
@@ -100,7 +102,7 @@ namespace MinecraftClone.Scripts
         {
             base.OnUnload();
 
-            worldManager.Unload();
+            worldManager.DeleteWorld();
             program.Delete();
         }
         //called every frame. All rendering happens here

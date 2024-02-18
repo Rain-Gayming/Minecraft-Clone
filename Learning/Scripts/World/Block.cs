@@ -25,7 +25,7 @@ namespace MinecraftClone.Scripts.World
 
 		private Dictionary<Faces, FaceData> faces;
 
-
+		//gets the position of the faces UVs
 		public Dictionary<Faces, List<Vector2>> GetUVsFromCoordinates(Dictionary<Faces, Vector2> coords)
 		{
 			Dictionary<Faces, List<Vector2>> faceData = new Dictionary<Faces, List<Vector2>>();
@@ -43,6 +43,8 @@ namespace MinecraftClone.Scripts.World
 
 			return faceData;
 		}
+
+		//dictionary of the faces on the cube
 		public Dictionary<Faces, List<Vector2>> blockUV = new Dictionary<Faces, List<Vector2>>()
 		{
 			{Faces.top, new List<Vector2>() },
@@ -58,11 +60,13 @@ namespace MinecraftClone.Scripts.World
 			this.position = position;
 			this.type = blockType;
 
+			//gets the UV coords for each face
 			if(blockType != BlockType.air)
 			{
 				blockUV = GetUVsFromCoordinates(TextureData.blockTypeUVCoord[blockType]);
 			}
 
+			//sets textures per face
 			faces = new Dictionary<Faces, FaceData>
 			{
 				{
@@ -111,6 +115,7 @@ namespace MinecraftClone.Scripts.World
 			};
 		}
 
+		//adds blcok vertices
 		public List<Vector3> AddTransformedVertices(List<Vector3> vetices)
 		{
 			List<Vector3> transformedVertices = new List<Vector3>();
@@ -123,6 +128,7 @@ namespace MinecraftClone.Scripts.World
 			return transformedVertices;
 		}
 
+		//gets a face
 		public FaceData GetFace(Faces face)
 		{
 			return faces[face];

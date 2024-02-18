@@ -31,6 +31,8 @@ namespace MinecraftClone.Scripts.World
 		public WorldManager(int renderDistance)
 		{
 			this.renderDistance = renderDistance;
+
+			//sets the shader program
 			program = new ShaderProgram("Default.vert", "Default.frag");
 		}
 
@@ -45,14 +47,10 @@ namespace MinecraftClone.Scripts.World
 
 			for (int x = 0; x < renderDistance; x++)
 			{
-				//x chunk position
-				float[,] heightMap = GenerateHeightMap();
+				//purely to set the x position
 				Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
 				vPos.X = startPos.X + (16 * x);
 				
-				//adds the chunk to the list 
-				chunks.Add(new Chunk(vPos, heightMap));
-
 				for (int y = 0; y < renderDistance; y++)
 				{
 					float[,] heightMapY = GenerateHeightMap();
@@ -72,17 +70,19 @@ namespace MinecraftClone.Scripts.World
 		//generates heightmap
 		public float[,] GenerateHeightMap()
 		{
-			float[,] heightMap = new float[256, 256];
+			//sets heightmap size of a chunk
+			float[,] heightMap = new float[16, 16];
 
 			//random seed
 			Random rnd = new Random();
 			int seedRand = rnd.Next(-100000, 100000);
 
+			//generates the heightmap
 			SimplexNoise.Noise.Seed = seedRand;
 
-			for (int x = 0; x < 256; x++)
+			for (int x = 0; x < 16; x++)
 			{
-				for (int z = 0; z < 256; z++)
+				for (int z = 0; z < 16; z++)
 				{
 					heightMap[x, z] = SimplexNoise.Noise.CalcPixel2D(x, z, 0.01f);
 				}
@@ -91,17 +91,19 @@ namespace MinecraftClone.Scripts.World
 		}
 		public void RenderWorld()
 		{
+			//renders the chunks
 			for (int i = 0; i < chunks.Count; i++)
 			{
-				chunks[i].Render(program);
+				chunks[i].RenderChunk(program);
 			}
 		}
 
-		public void Unload()
+		public void DeleteWorld()
 		{
+			//deletes the chunks
 			for (int i = 0; i < chunks.Count; i++)
 			{
-				chunks[i].Delete();
+				chunks[i].DeleteChunk();
 			}
 		}
 	}

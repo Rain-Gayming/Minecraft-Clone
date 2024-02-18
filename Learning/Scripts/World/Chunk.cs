@@ -47,12 +47,15 @@ namespace MinecraftClone.Scripts.World
 		{
 			this.chunkPosition = position;
 
+			//creates the verts, uvs and		
 			chunkVerts = new List<Vector3>();
 			chunkUVs = new List<Vector2>();
 			chunkIndices = new List<uint>();
 
+			//creates a list of blocks based on the max sizes
 			chunkBlocks = new Block[maxChunkSize, maxChunkHeight, maxChunkSize];
 
+			//list of test biomes
 			List<Biome> biomes = new List<Biome>()
 			{
 				new Biome()
@@ -75,10 +78,12 @@ namespace MinecraftClone.Scripts.World
 				},
 			};
 
+			//generates a random biome for testing
 			Random rnd = new Random();
 			int seedRand = rnd.Next(0, biomes.Count);
 			chunkBiome = biomes[seedRand];
 
+			//creates the chunk
 			GenBlocks(heightMap);
 			GenFaces(heightMap);
 			BuildChunk();
@@ -91,23 +96,32 @@ namespace MinecraftClone.Scripts.World
             {
 				for (int blockZ = 0; blockZ < maxChunkSize; blockZ++)
 				{
+					//height of each y row of a chunk
 					int columnHeight = (int)(heightMap[blockX, blockZ] / 20);
 					for (int blockY = 0; blockY < maxChunkHeight; blockY++)
 					{
+						//sets default block type
 						BlockType type = BlockType.air;
-						if (blockY < columnHeight - 1)
-						{
-							type = chunkBiome.lowerBlock;
-						}
+						
+						//sets the top layer of a chunk
 						if (blockY == columnHeight - 1)
 						{
 							type = chunkBiome.topBlock;
 						}
 
+						//sets below the top of a chunk
+						if (blockY < columnHeight - 1)
+						{
+							type = chunkBiome.lowerBlock;
+						}
+
+						//sets the stone layer
 						if (blockY <= columnHeight - 5)
 						{
 							type = BlockType.stone;
 						}
+
+						//adds the blocks
 						chunkBlocks[blockX, blockY, blockZ] = new Block(new Vector3(blockX + chunkPosition.X, blockY, blockZ + chunkPosition.Z), type);						
 					}
 				}
@@ -126,7 +140,8 @@ namespace MinecraftClone.Scripts.World
 						int numFaces = 0;
 
 						if (chunkBlocks[x, y, z].type != BlockType.air)
-						{//left faces
+						{
+							//left faces
 							if (x > 0)
 							{
 								if (chunkBlocks[x - 1, y, z].type == BlockType.air)
@@ -226,6 +241,7 @@ namespace MinecraftClone.Scripts.World
 
 		public void IntegrateFace(Block block, Faces face)
 		{
+			//adds faces
 			var faceData = block.GetFace(face);
 			chunkVerts.AddRange(faceData.vertices);
 			chunkUVs.AddRange(faceData.uv);
@@ -235,6 +251,7 @@ namespace MinecraftClone.Scripts.World
 		{
             for (int i = 0; i < amount; i++)
 			{
+				//indices based on the face
 				chunkIndices.Add(0 + indexCount);
 				chunkIndices.Add(1 + indexCount);
 				chunkIndices.Add(2 + indexCount);
@@ -265,7 +282,7 @@ namespace MinecraftClone.Scripts.World
 		}
 
 		//renders the cunk
-		public void Render(ShaderProgram program)
+		public void RenderChunk(ShaderProgram program)
 		{
 			program.Bind();
 			chunkVAO.Bind();
@@ -274,7 +291,7 @@ namespace MinecraftClone.Scripts.World
 			GL.DrawElements(PrimitiveType.Triangles, chunkIndices.Count, DrawElementsType.UnsignedInt, 0);
 		}
 
-		public void Delete()
+		public void DeleteChunk()
 		{
 			chunkVAO.Delete();
 			chunkVertexVBO.Delete();
