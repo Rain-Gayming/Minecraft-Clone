@@ -26,24 +26,29 @@ namespace MinecraftClone.Scripts.World
 		private List<Vector2> chunkUVs;
 		private List<uint> chunkIndices;
 
-		public Biome chunkBiome;
+		//world info
+		public int waterLevel = 3;
 
-		const int maxChunkSize = 16;
-		const int maxChunkHeight = 64;
+		//chunk info
+		public Biome chunkBiome;
+		const int maxChunkSize = 32;
+		const int maxChunkHeight = 32;
 		public Vector3 chunkPosition;
 
 		uint indexCount;
 
+		//chunk rendering
 		VAO chunkVAO;
 		VBO chunkVertexVBO;
 		VBO chunkUVVBO;
 		IBO chunkIBO;
-
 		Texture texture;
 
+		//chunk blocks n stuff
 		Block[,,] chunkBlocks;
+		float[,] heightMap;
 
-		public Chunk(Vector3 position, float[,] heightMap)
+		public Chunk(Vector3 position )
 		{
 			this.chunkPosition = position;
 
@@ -82,6 +87,11 @@ namespace MinecraftClone.Scripts.World
 			Random rnd = new Random();
 			int seedRand = rnd.Next(0, biomes.Count);
 			chunkBiome = biomes[seedRand];
+		}
+
+		public void SetHeightMap(float[,] map)
+		{
+			heightMap = map;
 
 			//creates the chunk
 			GenBlocks(heightMap);
@@ -102,6 +112,7 @@ namespace MinecraftClone.Scripts.World
 					{
 						//sets default block type
 						BlockType type = BlockType.air;
+						BlockStyle style = BlockStyle.block;
 						
 						//sets the top layer of a chunk
 						if (blockY == columnHeight - 1)
@@ -120,9 +131,14 @@ namespace MinecraftClone.Scripts.World
 						{
 							type = BlockType.stone;
 						}
+						//sets the water layer
+						if (blockY <= columnHeight - waterLevel)
+						{
+							//type = BlockType.water;
+						}
 
 						//adds the blocks
-						chunkBlocks[blockX, blockY, blockZ] = new Block(new Vector3(blockX + chunkPosition.X, blockY, blockZ + chunkPosition.Z), type);						
+						chunkBlocks[blockX, blockY, blockZ] = new Block(new Vector3(blockX + chunkPosition.X, blockY, blockZ + chunkPosition.Z), type, style);						
 					}
 				}
 			}

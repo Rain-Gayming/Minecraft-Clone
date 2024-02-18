@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace MinecraftClone.Scripts.World.Data
 {
-    //the block types
-    public enum BlockType
-    {
-        air,
-        water,
-        grass,
-        dirt,
-        stone,
-        stoneStairs
-    }
+	public enum BlockStyle
+	{
+		block,
+		slab,
+		stair,
+		water,
+	}
 }

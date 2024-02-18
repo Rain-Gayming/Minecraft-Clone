@@ -1,12 +1,15 @@
 ﻿//System
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MinecraftClone.Scripts.Graphics;
 using MinecraftClone.Scripts.Json;
 using MinecraftClone.Scripts.Player;
+using MinecraftClone.Scripts.UI;
 using MinecraftClone.Scripts.World;
 
 
@@ -19,6 +22,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 //STB
 using StbImageSharp;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MinecraftClone.Scripts
@@ -35,16 +39,21 @@ namespace MinecraftClone.Scripts
 		float yRot = 0f;
 
 
-        //width and height of screen
-        int width, height;
+		//width and height of screen
+		int width, height;
 
         //game variables
         public bool isPaused;
         public int renderDistance = 16;
 
+        //ticks
+        public float ticksPerSecond = 60;
+        public float frame;
+        public float currentTickOnSecond;
+
 
         //constructor that sets the width, height, and calls the base constructor (GameWindow's Constructor) with default args
-        public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
+        public Game(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Title = title })
         {
             this.width = width;
             this.height = height;
@@ -72,33 +81,35 @@ namespace MinecraftClone.Scripts
             //creates biome json manager
             biomeJsonManager = new BiomeJsonManager();
 
-			RenderShaders();
-
             //creates world manager and generates the world
             worldManager = new WorldManager(renderDistance);
             worldManager.GenerateWorld();
 
             //spawns camera
             camera = new Camera(width, height, new Vector3(0, 25, 0));
-            
-            //locks the cursor
-            CursorState = CursorState.Grabbed;
-        }
+
+			//locks the cursor
+			CursorState = CursorState.Grabbed;
 
 
-        
-        public void RenderShaders()
+			RenderShaders();
+		}
+
+
+
+		public void RenderShaders()
         {
             program = new ShaderProgram("Default.vert", "Default.frag");
-            
-			GL.Enable(EnableCap.DepthTest);
+
+            GL.Enable(EnableCap.DepthTest);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
         }
 
-        //called once when game is closed
-        protected override void OnUnload()
+
+		//called once when game is closed
+		protected override void OnUnload()
         {
             base.OnUnload();
 
@@ -114,7 +125,7 @@ namespace MinecraftClone.Scripts
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
-            //transformation marices
+            //transformation mat    rices
             Matrix4 model = Matrix4.Identity;
             Matrix4 view = camera.GetViewMatrix();
             Matrix4 projection = camera.GetProjectionMatrix();
@@ -128,16 +139,12 @@ namespace MinecraftClone.Scripts
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-            worldManager.RenderWorld();
-
-            //chunk.Render(program);
-
-            //GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt, 0);
-
-            //swap the buffers
+			//swap the buffers
             Context.SwapBuffers();
 
-            base.OnRenderFrame(args);
+			worldManager.RenderWorld();
+
+			base.OnRenderFrame(args);
         }
         //called every frame. All updating happens here
         protected override void OnUpdateFrame(FrameEventArgs args)

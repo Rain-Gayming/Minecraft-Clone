@@ -24,6 +24,7 @@ namespace MinecraftClone.Scripts.Player
 
         //positions
         public Vector3 position;
+        public static Vector3 _position;
         public Vector3 up = Vector3.UnitY;
         public Vector3 front = -Vector3.UnitZ;
         public Vector3 right = Vector3.UnitX;
@@ -39,6 +40,10 @@ namespace MinecraftClone.Scripts.Player
         public float width;
         public float height;
 
+        //gravity + colisions
+        public float gravity = -9.81f;
+        public float collisionDistance = 1f;
+
         public Camera(float width, float height, Vector3 position)
         {
             this.width = width;
@@ -49,7 +54,10 @@ namespace MinecraftClone.Scripts.Player
         public void Update(KeyboardState input, MouseState mouse, FrameEventArgs e)
         {
             InputController(input, mouse, e);
-        }
+
+
+            _position = position;
+		}
 
         public void InputController(KeyboardState input, MouseState mouse, FrameEventArgs e)
         {

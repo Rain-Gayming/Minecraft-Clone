@@ -22,6 +22,7 @@ namespace MinecraftClone.Scripts.World
 		public Vector3 position;
 
 		public BlockType type;
+		public BlockStyle style;
 
 		private Dictionary<Faces, FaceData> faces;
 
@@ -55,10 +56,11 @@ namespace MinecraftClone.Scripts.World
 			{Faces.right, new List<Vector2>() },
 		};
 
-		public Block(Vector3 position, BlockType blockType = BlockType.air)
+		public Block(Vector3 position, BlockType blockType = BlockType.air, BlockStyle blockStlye = BlockStyle.block)
 		{
 			this.position = position;
 			this.type = blockType;
+			this.style = blockStlye;
 
 			//gets the UV coords for each face
 			if(blockType != BlockType.air)
@@ -67,52 +69,103 @@ namespace MinecraftClone.Scripts.World
 			}
 
 			//sets textures per face
-			faces = new Dictionary<Faces, FaceData>
+			if(blockStlye == BlockStyle.block)
 			{
+				faces = new Dictionary<Faces, FaceData>
+				{
 				{
 					Faces.top, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.top]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.top]),
 						uv = blockUV[Faces.top]
 					}
 				},
 				{
 					Faces.bottom, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.bottom]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.bottom]),
 						uv = blockUV[Faces.bottom]
 					}
 				},
 				{
 					Faces.front, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.front]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.front]),
 						uv = blockUV[Faces.front]
 					}
 				},
 				{
 					Faces.back, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.back]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.back]),
 						uv = blockUV[Faces.back]
 					}
 				},
 				{
 					Faces.left, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.left]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.left]),
 						uv = blockUV[Faces.left]
 					}
 				},
 				{
 					Faces.right, new FaceData
 					{
-						vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.right]),
+						vertices = AddTransformedVertices(FaceDataRaw.rawCubeVertexData[Faces.right]),
 						uv = blockUV[Faces.right]
 					}
 				}
+				};
+			}
 
-			};
+			if (blockStlye == BlockStyle.stair)
+			{
+				faces = new Dictionary<Faces, FaceData>
+				{
+				{
+					Faces.top, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.top]),
+						uv = blockUV[Faces.top]
+					}
+				},
+				{
+					Faces.bottom, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.bottom]),
+						uv = blockUV[Faces.bottom]
+					}
+				},
+				{
+					Faces.front, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.front]),
+						uv = blockUV[Faces.front]
+					}
+				},
+				{
+					Faces.back, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.back]),
+						uv = blockUV[Faces.back]
+					}
+				},
+				{
+					Faces.left, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.left]),
+						uv = blockUV[Faces.left]
+					}
+				},
+				{
+					Faces.right, new FaceData
+					{
+						vertices = AddTransformedVertices(FaceDataRaw.rawStairVertexData[Faces.right]),
+						uv = blockUV[Faces.right]
+					}
+				}
+				};
+			}
 		}
 
 		//adds blcok vertices

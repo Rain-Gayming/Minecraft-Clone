@@ -53,29 +53,30 @@ namespace MinecraftClone.Scripts.World
 				
 				for (int y = 0; y < renderDistance; y++)
 				{
-					float[,] heightMapY = GenerateHeightMap();
 					//y chunk position acording to x chunk
 					Vector3 cPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
 					cPos.X = vPos.X;
 					cPos.Z = startPos.X + (y * 16);
 
+					//makes chunk
+					Chunk newChunk = new Chunk(cPos);
+					newChunk.SetHeightMap(GenerateHeightMap(newChunk.chunkPosition));
+
 					//adds the chunk to the list 
-					chunks.Add(new Chunk(cPos, heightMapY));
+					chunks.Add(newChunk);
 				}
 			}
-
-			RenderWorld();
 		}
 
 		//generates heightmap
-		public float[,] GenerateHeightMap()
+		public float[,] GenerateHeightMap(Vector3 chunkPosition)
 		{
 			//sets heightmap size of a chunk
-			float[,] heightMap = new float[16, 16];
+			float[,] heightMap = new float[32, 32];
 
 			//random seed
 			Random rnd = new Random();
-			int seedRand = rnd.Next(-100000, 100000);
+			int seedRand = rnd.Next(-100000000, 100000000);
 
 			//generates the heightmap
 			SimplexNoise.Noise.Seed = seedRand;
@@ -91,6 +92,7 @@ namespace MinecraftClone.Scripts.World
 		}
 		public void RenderWorld()
 		{
+			Console.WriteLine(chunks.Count);
 			//renders the chunks
 			for (int i = 0; i < chunks.Count; i++)
 			{
