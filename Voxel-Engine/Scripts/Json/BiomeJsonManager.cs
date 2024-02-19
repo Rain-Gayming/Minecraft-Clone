@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Player;
 
 
 //Open TK
@@ -16,10 +16,10 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 //Json
 using Newtonsoft.Json;
-using MinecraftClone.Scripts.World.Data;
+using VoxelEngine.Scripts.World.Data;
 using System.Reflection;
 
-namespace MinecraftClone.Scripts.Json
+namespace VoxelEngine.Scripts.Json
 {
 	internal class BiomeJsonManager
 	{

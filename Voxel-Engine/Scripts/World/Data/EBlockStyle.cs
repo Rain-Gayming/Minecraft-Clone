@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftClone.Scripts.World.Data
+namespace VoxelEngine.Scripts.World.Data
 {
 	public enum BlockStyle
 	{

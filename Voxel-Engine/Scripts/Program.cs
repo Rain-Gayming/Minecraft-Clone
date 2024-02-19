@@ -1,6 +1,6 @@
 ﻿using OpenTK.Windowing.Common;
 
-namespace MinecraftClone.Scripts
+namespace VoxelEngine.Scripts
 {
     class Program
     {

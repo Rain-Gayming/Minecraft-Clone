@@ -1,4 +1,4 @@
-﻿//System
+﻿ //System
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Graphics;
-using MinecraftClone.Scripts.Player;
-using MinecraftClone.Scripts.World;
+using VoxelEngine.Scripts.Graphics;
+using VoxelEngine.Scripts.Player;
+using VoxelEngine.Scripts.World;
 
 
 //Open TK
@@ -19,7 +19,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 
-namespace MinecraftClone.Scripts.World
+namespace VoxelEngine.Scripts.World
 {
 	internal class WorldManager
 	{
@@ -38,34 +38,22 @@ namespace MinecraftClone.Scripts.World
 
 		public void GenerateWorld()
 		{
-			//generates heightmap
+			Vector3 cameraPos = Camera._position;
 
-			//sets the position for the chunks to be centered
-			Vector3 startPos = Vector3.Zero;
-			startPos.X -= renderDistance * 8;
-			startPos.Z -= renderDistance * 8;
+            for (int i = 0; i < renderDistance; i++)
+            {
+				AddChunk(new Vector3(new Vector3(cameraPos.X + i, 0, cameraPos.Y + i)));
+            }
+        }
 
-			for (int x = 0; x < renderDistance; x++)
-			{
-				//purely to set the x position
-				Vector3 vPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
-				vPos.X = startPos.X + (16 * x);
-				
-				for (int y = 0; y < renderDistance; y++)
-				{
-					//y chunk position acording to x chunk
-					Vector3 cPos = new Vector3(startPos.X, startPos.Y, startPos.Z);
-					cPos.X = vPos.X;
-					cPos.Z = startPos.X + (y * 16);
+		public void AddChunk(Vector3 position)
+		{
+			//makes chunk
+			Chunk newChunk = new Chunk(position);
+			newChunk.SetHeightMap(GenerateHeightMap(newChunk.chunkPosition));
 
-					//makes chunk
-					Chunk newChunk = new Chunk(cPos);
-					newChunk.SetHeightMap(GenerateHeightMap(newChunk.chunkPosition));
-
-					//adds the chunk to the list 
-					chunks.Add(newChunk);
-				}
-			}
+			//adds the chunk to the list 
+			chunks.Add(newChunk);
 		}
 
 		//generates heightmap

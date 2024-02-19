@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Graphics;
-using MinecraftClone.Scripts.Json;
-using MinecraftClone.Scripts.Player;
-using MinecraftClone.Scripts.UI;
-using MinecraftClone.Scripts.World;
+using VoxelEngine.Scripts.Graphics;
+using VoxelEngine.Scripts.Json;
+using VoxelEngine.Scripts.Player;
+using VoxelEngine.Scripts.UI;
+using VoxelEngine.Scripts.World;
 
 
 //Open TK
@@ -25,7 +25,7 @@ using StbImageSharp;
 using static System.Net.Mime.MediaTypeNames;
 
 
-namespace MinecraftClone.Scripts
+namespace VoxelEngine.Scripts
 {
     internal class Game : GameWindow
     {

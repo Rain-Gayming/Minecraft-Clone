@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Graphics;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Graphics;
+using VoxelEngine.Scripts.Player;
 
 
 
@@ -19,7 +19,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 //STB
 using StbImageSharp;
 
-namespace MinecraftClone.Scripts.World.Data
+namespace VoxelEngine.Scripts.World.Data
 {
     internal class TextureData
     {

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
-using MinecraftClone.Scripts.World.Data;
+using VoxelEngine.Scripts.Player;
+using VoxelEngine.Scripts.World.Data;
 
 
 //Open TK
@@ -15,7 +15,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace MinecraftClone.Scripts.World
+namespace VoxelEngine.Scripts.World
 {
     internal class Block
 	{

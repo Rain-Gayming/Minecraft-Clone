@@ -516,11 +516,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj",
-      "projectName": "MinecraftClone",
-      "projectPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\MinecraftClone.csproj",
+      "projectUniqueName": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Voxel-Engine\\Voxel-Engine\\VoxelEngine.csproj",
+      "projectName": "VoxelEngine",
+      "projectPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Voxel-Engine\\Voxel-Engine\\VoxelEngine.csproj",
       "packagesPath": "C:\\Users\\Kenor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Minecraft-Clone\\Learning\\obj\\",
+      "outputPath": "C:\\Users\\Kenor\\OneDrive\\Documents\\Coding Projects\\C#\\Voxel-Engine\\Voxel-Engine\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Player;
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -13,7 +13,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace MinecraftClone.Scripts.Graphics
+namespace VoxelEngine.Scripts.Graphics
 {
 	internal class VAO
 	{

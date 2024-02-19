@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Player;
 
 
 //Open TK
@@ -14,7 +14,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace MinecraftClone.Scripts.World.Data
+namespace VoxelEngine.Scripts.World.Data
 {
     //the UVs and Vertices of each face
     public struct FaceData

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Player;
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -16,7 +16,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using StbImageSharp;
 
 
-namespace MinecraftClone.Scripts.Graphics
+namespace VoxelEngine.Scripts.Graphics
 {
 	internal class Texture
 	{

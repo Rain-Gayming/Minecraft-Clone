@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinecraftClone.Scripts.Player;
+using VoxelEngine.Scripts.Player;
 
 //Open TK
 using OpenTK.Graphics.OpenGL4;
@@ -13,10 +13,11 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace MinecraftClone.Scripts.Player
+namespace VoxelEngine.Scripts.Player
 {
     internal class Camera
     {
+        public static Camera instance;
         //camera settings
         public float speed = 8f;
         public float sensitivity = 135f;
@@ -49,6 +50,8 @@ namespace MinecraftClone.Scripts.Player
             this.width = width;
             this.height = height;
             this.position = position;
+
+            instance = this;
         }
 
         public void Update(KeyboardState input, MouseState mouse, FrameEventArgs e)

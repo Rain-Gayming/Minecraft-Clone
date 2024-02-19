@@ -6,9 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
-using MinecraftClone.Scripts.Graphics;
-using MinecraftClone.Scripts.Player;
-using MinecraftClone.Scripts.World.Data;
+using VoxelEngine.Scripts.Graphics;
+using VoxelEngine.Scripts.Player;
+using VoxelEngine.Scripts.World.Data;
 
 
 //Open TK
@@ -18,7 +18,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace MinecraftClone.Scripts.World
+namespace VoxelEngine.Scripts.World
 {
     internal class Chunk
 	{
